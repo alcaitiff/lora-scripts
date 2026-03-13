@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+"""
+Mute unsupported diffusion_model.layers.*.attention.* LoRA tensors
+by zeroing their weights and saving new safetensors files.
+
+Usage:
+  ./mute_lora.py file1.safetensors file2.safetensors
+  ./mute_lora.py Mystic*.safetensors
+"""
+
+from safetensors.torch import load_file, save_file
+import torch
+import glob
+import os
+import sys
+
+# =========================
+# MUTE RULE
+# =========================
+def should_mute(key: str) -> bool:
+    """
+    Matches exactly the keys reported as 'not loaded'
+    """
+    return (
+        key.startswith("diffusion_model.layers.")
+        and ".attention." in key
+        and (
+            key.endswith(".lora_A.weight")
+            or key.endswith(".lora_B.weight")
+        )
+    )
+
+# =========================
+# INPUT FILES
+# =========================
+if len(sys.argv) < 2:
+    print("Usage: mute_lora.py <file_or_pattern> [more_files_or_patterns...]")
+    sys.exit(1)
+
+input_patterns = sys.argv[1:]
+input_files = []
+
+for pattern in input_patterns:
+    matches = glob.glob(pattern)
+    if not matches:
+        print(f"Warning: no files matched '{pattern}'")
+    input_files.extend(matches)
+
+# remove duplicates, preserve order
+seen = set()
+input_files = [f for f in input_files if not (f in seen or seen.add(f))]
+
+if not input_files:
+    print("No input files to process.")
+    sys.exit(1)
+
+# =========================
+# PROCESS
+# =========================
+for input_lora in input_files:
+    base, ext = os.path.splitext(input_lora)
+    output_lora = f"{base}_muted{ext}"
+
+    print(f"\nLoading: {input_lora}")
+    state = load_file(input_lora)
+
+    new_state = {}
+    muted_keys = []
+    keep_keys = []
+
+    for key, tensor in state.items():
+        if should_mute(key):
+            new_state[key] = torch.zeros_like(tensor)
+            muted_keys.append(key)
+        else:
+            new_state[key] = tensor
+            keep_keys.append(key)
+
+    print(f"Saving: {output_lora}")
+    save_file(new_state, output_lora)
+
+    print("===================================")
+    print(f"File               : {input_lora}")
+    print(f"Total tensors      : {len(state)}")
+    print(f"Muted tensors      : {len(muted_keys)}")
+    print(f"Keep tensors       : {len(keep_keys)}")
+    print("===================================")
+
+    if muted_keys:
+        print("Muted keys:")
+        for k in muted_keys:
+            print(" -", k)
+    else:
+        print("No keys were muted.")
+    print("Keep keys:")
+    for k in keep_keys:
+        print(" -", k)
+
