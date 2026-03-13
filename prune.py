@@ -1,54 +1,47 @@
 #!/usr/bin/env python3
 """
-Remove diffusion_model.layers.*.attention.* LoRA tensors
+Remove LoRA tensors whose keys contain any of the provided substrings
 by deleting them from the safetensors file and saving a new one.
 
 Usage:
-  ./prune.py file1.safetensors file2.safetensors
-  ./prune.py name*.safetensors
+  ./prune.py --match ".attention." ".layers.20." file1.safetensors file2.safetensors
+  ./prune.py --match ".attention." "to_k" name*.safetensors
 """
 
 from safetensors.torch import load_file, save_file
+import argparse
 import glob
 import os
 import sys
 
-# =========================
-# REMOVE RULE
-# =========================
-def should_remove(key: str) -> bool:
-    """
-    Matches attention LoRA tensors to be removed entirely
-    """
-    return (
-        key.startswith("diffusion_model.layers.")
-        and (
-            ".attention." in key
-            # or ".layers.20." in key
-            # or ".layers.1" in key
-            # or ".layers.2." in key
-            # or ".layers.3." in key
-            # or ".layers.4." in key
-            # or ".layers.5." in key
-            # or ".layers.26." in key
-            # or ".layers.27." in key
-            # or ".layers.28." in key
-            # or ".layers.29." in key
-        )
-        # and (
-        #     key.endswith(".lora_A.weight")
-        #     or key.endswith(".lora_B.weight")
-        # )
-    )
+def should_remove(key: str, substrings) -> bool:
+    return any(s in key for s in substrings)
 
 # =========================
 # INPUT FILES
 # =========================
-if len(sys.argv) < 2:
-    print("Usage: prune.py <file_or_pattern> [more_files_or_patterns...]")
-    sys.exit(1)
+parser = argparse.ArgumentParser(
+    description="Remove tensors whose keys contain any of the provided substrings"
+)
+parser.add_argument(
+    "--match",
+    nargs="+",
+    required=True,
+    help="One or more substrings to match against tensor keys",
+)
+parser.add_argument(
+    "inputs",
+    nargs="+",
+    help="Input .safetensors files or glob patterns",
+)
+parser.add_argument(
+    "--dry-run",
+    action="store_true",
+    help="Show which keys would be removed without writing output files",
+)
+args = parser.parse_args()
 
-input_patterns = sys.argv[1:]
+input_patterns = args.inputs
 input_files = []
 
 for pattern in input_patterns:
@@ -80,20 +73,25 @@ for input_lora in input_files:
     keep_keys = []
 
     for key, tensor in state.items():
-        if should_remove(key):
+        if should_remove(key, args.match):
             removed_keys.append(key)
             continue
         new_state[key] = tensor
         keep_keys.append(key)
 
-    print(f"Saving: {output_lora}")
-    save_file(new_state, output_lora)
+    if args.dry_run:
+        print("Dry run: no output file written.")
+    else:
+        print(f"Saving: {output_lora}")
+        save_file(new_state, output_lora)
 
     print("===================================")
     print(f"File               : {input_lora}")
     print(f"Total tensors      : {len(state)}")
     print(f"Removed tensors    : {len(removed_keys)}")
     print(f"Kept tensors       : {len(keep_keys)}")
+    if args.dry_run:
+        print("Mode               : dry-run (no file written)")
     print("===================================")
 
     if removed_keys:
@@ -106,4 +104,3 @@ for input_lora in input_files:
     print("Kept keys:")
     for k in keep_keys:
         print(" -", k)
-

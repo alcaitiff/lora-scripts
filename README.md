@@ -116,18 +116,19 @@ Behavior:
 ---
 
 ### `prune.py`
-Removes attention LoRA tensors entirely, writing a new file with `_pruned` suffix.
+Removes tensors whose keys contain any of the provided substrings, writing a new file with `_pruned` suffix.
 
 Usage:
 ```bash
-python prune.py file1.safetensors file2.safetensors
-python prune.py "name*.safetensors"
+python prune.py --match ".attention." ".layers.20." file1.safetensors file2.safetensors
+python prune.py --match ".attention." "to_k" "name*.safetensors"
+python prune.py --match ".attention." --dry-run "name*.safetensors"
 ```
 
 Behavior:
-- Matches keys containing `diffusion_model.layers.*.attention.*`.
+- Removes any key that contains one of the `--match` substrings.
 - Writes `<input>_pruned.safetensors` for each input file.
-- Edit `should_remove()` to customize removal rules.
+ - With `--dry-run`, prints what would be removed and does not write output.
 
 ---
 
