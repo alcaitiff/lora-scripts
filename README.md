@@ -128,7 +128,8 @@ python prune.py --match ".attention." --dry-run "name*.safetensors"
 Behavior:
 - Removes any key that contains one of the `--match` substrings.
 - Writes `<input>_pruned.safetensors` for each input file.
- - With `--dry-run`, prints what would be removed and does not write output.
+- With `--dry-run`, prints what would be removed and does not write output.
+ - If inputs are omitted, the script will try to infer any existing files/globs that were accidentally included in `--match`.
 
 ---
 

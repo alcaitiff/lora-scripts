@@ -31,7 +31,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "inputs",
-    nargs="+",
+    nargs="*",
     help="Input .safetensors files or glob patterns",
 )
 parser.add_argument(
@@ -40,6 +40,35 @@ parser.add_argument(
     help="Show which keys would be removed without writing output files",
 )
 args = parser.parse_args()
+
+# If inputs were omitted, try to infer them from --match tokens.
+# This handles cases where a long --match list swallows the inputs.
+if not args.inputs:
+    inferred_inputs = []
+    remaining_matches = []
+    for token in args.match:
+        if any(ch in token for ch in "*?["):
+            matches = glob.glob(token)
+            if matches:
+                inferred_inputs.extend(matches)
+                continue
+        if os.path.exists(token):
+            inferred_inputs.append(token)
+        else:
+            remaining_matches.append(token)
+
+    if inferred_inputs:
+        args.inputs = inferred_inputs
+        args.match = remaining_matches
+
+if not args.inputs:
+    print("No input files provided.")
+    print("Tip: add `--` before your input files if you pass a long --match list.")
+    sys.exit(1)
+
+if not args.match:
+    print("No match substrings provided.")
+    sys.exit(1)
 
 input_patterns = args.inputs
 input_files = []
