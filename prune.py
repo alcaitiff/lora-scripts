@@ -87,11 +87,9 @@ if args.blocks and not args.inputs:
             if matches:
                 inferred_inputs.extend(matches)
                 continue
-        if os.path.exists(token):
-            inferred_inputs.append(token)
-        else:
-            print(f"Invalid block token: {token}")
-            sys.exit(1)
+        # Treat any non-block token as an input path or pattern; existence
+        # is validated later when resolving inputs.
+        inferred_inputs.append(token)
     if inferred_inputs:
         args.inputs = inferred_inputs
     args.blocks = remaining_blocks
