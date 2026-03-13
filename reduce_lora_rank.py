@@ -5,7 +5,7 @@ from safetensors.torch import load_file, save_file
 
 parser = argparse.ArgumentParser(description="Reduce LoRA rank using GPU SVD")
 parser.add_argument("input", help="Input LoRA safetensors file")
-parser.add_argument("output", nargs="?", default=None, help="Output LoRA safetensors file")
+parser.add_argument("output", nargs="?", default=None, help="Output LoRA safetensors file (optional)")
 parser.add_argument("--out", default=None, help="Output LoRA safetensors file")
 parser.add_argument("--rank", type=int, required=True, help="Target rank")
 

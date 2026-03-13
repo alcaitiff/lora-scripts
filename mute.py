@@ -4,8 +4,9 @@ Mute unsupported diffusion_model.layers.*.attention.* LoRA tensors
 by zeroing their weights and saving new safetensors files.
 
 Usage:
-  ./mute_lora.py file1.safetensors file2.safetensors
-  ./mute_lora.py Mystic*.safetensors
+  ./mute.py file1.safetensors file2.safetensors
+  ./mute.py "Mystic*.safetensors"
+  ./mute.py input.safetensors --out muted.safetensors
 """
 
 import argparse

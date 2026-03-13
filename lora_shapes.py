@@ -1,5 +1,5 @@
 # lora_shapes.py
-# Run it like: python lora_shapes.py your_lora_file.safetensors
+# Run it like: python lora_shapes.py your_lora_file.safetensors [--out report.txt]
 
 import argparse
 from safetensors.torch import load_file

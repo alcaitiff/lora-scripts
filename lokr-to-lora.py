@@ -101,7 +101,7 @@ def convert_lokr_to_lora(lokr_path, output_path=None, rank=16, device=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="LoKr → LoRA converter (Flux fix)")
     parser.add_argument("lokr_file", type=str, help="Input LoKr .safetensors")
-    parser.add_argument("--output", "--out", type=str, default=None, help="Output path")
+    parser.add_argument("--output", "--out", type=str, default=None, help="Output path (alias: --out)")
     parser.add_argument("--rank", type=int, default=16, help="LoRA rank")
     parser.add_argument("--device", type=str, default=None, choices=['cpu', 'cuda'])
 

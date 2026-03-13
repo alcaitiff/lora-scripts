@@ -103,7 +103,7 @@ if __name__ == "__main__":
         "--output",
         "--out",
         default=None,
-        help="Output file",
+        help="Output file (alias: --out)",
     )
 
     args = parser.parse_args()

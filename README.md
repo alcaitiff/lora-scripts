@@ -14,6 +14,7 @@ pip install torch safetensors
 Notes:
 - Some scripts can use CUDA if available. CPU fallback is supported unless noted.
 - All scripts operate on `.safetensors` files unless otherwise stated.
+- Most scripts support `--out` to override the output filename.
 
 ---
 
@@ -26,13 +27,13 @@ Usage:
 ```bash
 python lokr-to-lora.py path/to/input_lokr.safetensors \
   --rank 16 \
-  --output path/to/output_lora.safetensors \
+  --out path/to/output_lora.safetensors \
   --device cuda
 ```
 
 Arguments:
 - `lokr_file` (positional): Input LoKr `.safetensors` file.
-- `--output`: Output path. Default is `<input>_converted_lora.safetensors`.
+- `--out` / `--output`: Output path. Default is `<input>_converted_lora.safetensors`.
 - `--rank`: Target LoRA rank. Default `16`.
 - `--device`: `cpu` or `cuda`. Default auto-detects.
 
@@ -46,12 +47,13 @@ Reduces LoRA rank using SVD. Uses GPU if available.
 
 Usage:
 ```bash
-python reduce_lora_rank.py input.safetensors output.safetensors --rank 8
+python reduce_lora_rank.py input.safetensors --rank 8 --out output.safetensors
 ```
 
 Arguments:
 - `input`: Input LoRA `.safetensors`.
-- `output`: Output file.
+- `output` (optional positional): Output file.
+- `--out`: Output file (preferred).
 - `--rank`: Target rank (required).
 
 Notes:
@@ -91,12 +93,13 @@ Prints per-layer tensor shapes and element counts for a LoRA file.
 
 Usage:
 ```bash
-python lora_shapes.py path/to/lora.safetensors
+python lora_shapes.py path/to/lora.safetensors --out report.txt
 ```
 
 Output:
 - Groups keys by `double_blocks.<id>` and `single_blocks.<id>`.
 - Includes a quick summary of `qkv`-related keys.
+- With `--out`, also writes the report to a text file.
 
 ---
 
@@ -107,11 +110,13 @@ Usage:
 ```bash
 python mute.py file1.safetensors file2.safetensors
 python mute.py "Mystic*.safetensors"
+python mute.py input.safetensors --out muted.safetensors
 ```
 
 Behavior:
 - Matches keys like `diffusion_model.layers.*.attention.*` ending with `.lora_A.weight` or `.lora_B.weight`.
 - Writes `<input>_muted.safetensors` for each input file.
+- `--out` can be used for a single input file to override the output name.
 
 ---
 
@@ -125,6 +130,7 @@ python prune.py --match ".attention." "to_k" "name*.safetensors"
 python prune.py --match ".attention." --dry-run "name*.safetensors"
 python prune.py --match ".attention." --blocks 4 7 10-13 lora.safetensors
 python prune.py --blocks 4 7 10-13 lora.safetensors
+python prune.py --match ".attention." input.safetensors --out pruned.safetensors
 ```
 
 Behavior:
@@ -133,6 +139,7 @@ Behavior:
 - With `--dry-run`, prints what would be removed and does not write output.
 - If inputs are omitted, the script will try to infer any existing files/globs that were accidentally included in `--match`.
 - `--blocks` adds match substrings like `block.<n>.`, `blocks.<n>.`, and `transformer_blocks.<n>.` and works alongside `--match`.
+- `--out` can be used for a single input file to override the output name.
 
 ---
 
@@ -144,14 +151,14 @@ Usage:
 python prune_and_scale.py input.safetensors \
   --scale-range 0 5 0.7 \
   --scale-range 6 10 1.2 \
-  --output output_pruned_scaled.safetensors \
+  --out output_pruned_scaled.safetensors \
   --debug
 ```
 
 Arguments:
 - `input`: Input `.safetensors` file.
 - `--scale-range START END MULT`: Required; may be repeated.
-- `--output`: Output file. Default: `<input>_pruned_scaled.safetensors`.
+- `--out` / `--output`: Output file. Default: `<input>_pruned_scaled.safetensors`.
 - `--debug`: Print per-layer before/after stats.
 
 Behavior:
@@ -165,12 +172,13 @@ Converts ModelDiff-style `lora_unet_*` keys to the `diffusion_model.*` format.
 
 Usage:
 ```bash
-python rename-from-modeldiff.py path/to/input.safetensors
+python rename-from-modeldiff.py path/to/input.safetensors --out converted.safetensors
 ```
 
 Output:
 - Writes `<input>_converted.safetensors`.
 - Only keys starting with `lora_unet_` are converted.
+- Use `--out` to override the output name.
 
 ---
 
@@ -178,14 +186,8 @@ Output:
 Remaps FLUX-style LoRA keys (`transformer_blocks` / `single_transformer_blocks`) to
 `diffusion_model.double_blocks.*` / `diffusion_model.single_blocks.*`.
 
-How to run:
-1. Open `rename.py` and edit the hardcoded paths:
-   - `input_path`
-   - `output_path`
-2. Run:
-
 ```bash
-python rename.py
+python rename.py path/to/input.safetensors --out renamed.safetensors
 ```
 
 Notes:
@@ -197,14 +199,8 @@ Notes:
 ### `lora_expand.py`
 Fixes broken `qkv.lora_B.weight` tensors that are too small by tripling the first dimension.
 
-How to run:
-1. Open `lora_expand.py` and edit:
-   - `inp`
-   - `out`
-2. Run:
-
 ```bash
-python lora_expand.py
+python lora_expand.py path/to/input.safetensors --out expanded.safetensors
 ```
 
 Behavior:

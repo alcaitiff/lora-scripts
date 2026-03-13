@@ -79,7 +79,7 @@ def remap_flux_lora_keys(old_state_dict):
     return new_state_dict
 
 
-# ── Usage example ────────────────────────────────────────────────────────────────
+# ── CLI usage ────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Remap Flux LoRA keys")
     parser.add_argument("input", help="Input .safetensors file")

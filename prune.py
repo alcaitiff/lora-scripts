@@ -6,6 +6,10 @@ by deleting them from the safetensors file and saving a new one.
 Usage:
   ./prune.py --match ".attention." ".layers.20." file1.safetensors file2.safetensors
   ./prune.py --match ".attention." "to_k" name*.safetensors
+  ./prune.py --match ".attention." --dry-run "name*.safetensors"
+  ./prune.py --match ".attention." --blocks 4 7 10-13 lora.safetensors
+  ./prune.py --blocks 4 7 10-13 lora.safetensors
+  ./prune.py --match ".attention." input.safetensors --out pruned.safetensors
 """
 
 from safetensors.torch import load_file, save_file
