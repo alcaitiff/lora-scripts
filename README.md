@@ -132,7 +132,7 @@ Behavior:
 - Writes `<input>_pruned.safetensors` for each input file.
 - With `--dry-run`, prints what would be removed and does not write output.
 - If inputs are omitted, the script will try to infer any existing files/globs that were accidentally included in `--match`.
-- `--blocks` adds match substrings like `block.<n>.` and works alongside `--match`.
+- `--blocks` adds match substrings like `block.<n>.`, `blocks.<n>.`, and `transformer_blocks.<n>.` and works alongside `--match`.
 
 ---
 

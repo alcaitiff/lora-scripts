@@ -102,7 +102,12 @@ if args.blocks:
     except ValueError as e:
         print(str(e))
         sys.exit(1)
-    block_matches = [f"block.{i}." for i in sorted(set(block_ids))]
+    uniq = sorted(set(block_ids))
+    block_matches = []
+    for i in uniq:
+        block_matches.append(f"block.{i}.")
+        block_matches.append(f"blocks.{i}.")
+        block_matches.append(f"transformer_blocks.{i}.")
 
 # If inputs were omitted, try to infer them from --match tokens.
 # This handles cases where a long --match list swallows the inputs.
