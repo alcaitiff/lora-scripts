@@ -30,6 +30,11 @@ parser.add_argument(
     help="One or more substrings to match against tensor keys",
 )
 parser.add_argument(
+    "--blocks",
+    nargs="+",
+    help="Block indexes or ranges (e.g. 4 7 10-13) to match as 'block.<n>.'",
+)
+parser.add_argument(
     "inputs",
     nargs="*",
     help="Input .safetensors files or glob patterns",
@@ -40,6 +45,33 @@ parser.add_argument(
     help="Show which keys would be removed without writing output files",
 )
 args = parser.parse_args()
+
+def parse_block_tokens(tokens):
+    if not tokens:
+        return []
+    out = []
+    for tok in tokens:
+        if "-" in tok:
+            parts = tok.split("-", 1)
+            if len(parts) != 2 or not parts[0] or not parts[1]:
+                raise ValueError(f"Invalid block range: {tok}")
+            start = int(parts[0])
+            end = int(parts[1])
+            if end < start:
+                raise ValueError(f"Invalid block range: {tok}")
+            out.extend(range(start, end + 1))
+        else:
+            out.append(int(tok))
+    return out
+
+block_matches = []
+if args.blocks:
+    try:
+        block_ids = parse_block_tokens(args.blocks)
+    except ValueError as e:
+        print(str(e))
+        sys.exit(1)
+    block_matches = [f"block.{i}." for i in sorted(set(block_ids))]
 
 # If inputs were omitted, try to infer them from --match tokens.
 # This handles cases where a long --match list swallows the inputs.
@@ -66,7 +98,8 @@ if not args.inputs:
     print("Tip: add `--` before your input files if you pass a long --match list.")
     sys.exit(1)
 
-if not args.match:
+combined_matches = list(args.match) + block_matches
+if not combined_matches:
     print("No match substrings provided.")
     sys.exit(1)
 
@@ -102,7 +135,7 @@ for input_lora in input_files:
     keep_keys = []
 
     for key, tensor in state.items():
-        if should_remove(key, args.match):
+        if should_remove(key, combined_matches):
             removed_keys.append(key)
             continue
         new_state[key] = tensor
