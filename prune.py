@@ -46,6 +46,14 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+def is_block_token(tok: str) -> bool:
+    if tok.isdigit():
+        return True
+    if "-" in tok:
+        parts = tok.split("-", 1)
+        return len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit()
+    return False
+
 def parse_block_tokens(tokens):
     if not tokens:
         return []
@@ -65,6 +73,29 @@ def parse_block_tokens(tokens):
     return out
 
 block_matches = []
+
+# If inputs were omitted, try to infer them from --blocks tokens too.
+if args.blocks and not args.inputs:
+    inferred_inputs = []
+    remaining_blocks = []
+    for token in args.blocks:
+        if is_block_token(token):
+            remaining_blocks.append(token)
+            continue
+        if any(ch in token for ch in "*?["):
+            matches = glob.glob(token)
+            if matches:
+                inferred_inputs.extend(matches)
+                continue
+        if os.path.exists(token):
+            inferred_inputs.append(token)
+        else:
+            print(f"Invalid block token: {token}")
+            sys.exit(1)
+    if inferred_inputs:
+        args.inputs = inferred_inputs
+    args.blocks = remaining_blocks
+
 if args.blocks:
     try:
         block_ids = parse_block_tokens(args.blocks)
