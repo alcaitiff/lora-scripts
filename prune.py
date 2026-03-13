@@ -44,6 +44,11 @@ parser.add_argument(
     action="store_true",
     help="Show which keys would be removed without writing output files",
 )
+parser.add_argument(
+    "--out",
+    default=None,
+    help="Output file (single input only)",
+)
 args = parser.parse_args()
 
 def is_block_token(tok: str) -> bool:
@@ -155,12 +160,20 @@ if not input_files:
     print("No input files to process.")
     sys.exit(1)
 
+# Optional single-output override
+output_override = None
+if args.out:
+    if len(input_files) != 1:
+        print("--out can only be used when exactly one input file is provided.")
+        sys.exit(1)
+    output_override = args.out
+
 # =========================
 # PROCESS
 # =========================
 for input_lora in input_files:
     base, ext = os.path.splitext(input_lora)
-    output_lora = f"{base}_pruned{ext}"
+    output_lora = output_override or f"{base}_pruned{ext}"
 
     print(f"\nLoading: {input_lora}")
     state = load_file(input_lora)

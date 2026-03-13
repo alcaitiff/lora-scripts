@@ -8,11 +8,12 @@ Usage:
   ./mute_lora.py Mystic*.safetensors
 """
 
-from safetensors.torch import load_file, save_file
-import torch
+import argparse
 import glob
 import os
 import sys
+import torch
+from safetensors.torch import load_file, save_file
 
 # =========================
 # MUTE RULE
@@ -33,11 +34,22 @@ def should_mute(key: str) -> bool:
 # =========================
 # INPUT FILES
 # =========================
-if len(sys.argv) < 2:
-    print("Usage: mute_lora.py <file_or_pattern> [more_files_or_patterns...]")
-    sys.exit(1)
+parser = argparse.ArgumentParser(
+    description="Mute unsupported diffusion_model.layers.*.attention.* tensors"
+)
+parser.add_argument(
+    "inputs",
+    nargs="+",
+    help="Input files or glob patterns",
+)
+parser.add_argument(
+    "--out",
+    default=None,
+    help="Output file (single input only)",
+)
+args = parser.parse_args()
 
-input_patterns = sys.argv[1:]
+input_patterns = args.inputs
 input_files = []
 
 for pattern in input_patterns:
@@ -54,12 +66,20 @@ if not input_files:
     print("No input files to process.")
     sys.exit(1)
 
+# Optional single-output override
+output_override = None
+if args.out:
+    if len(input_files) != 1:
+        print("--out can only be used when exactly one input file is provided.")
+        sys.exit(1)
+    output_override = args.out
+
 # =========================
 # PROCESS
 # =========================
 for input_lora in input_files:
     base, ext = os.path.splitext(input_lora)
-    output_lora = f"{base}_muted{ext}"
+    output_lora = output_override or f"{base}_muted{ext}"
 
     print(f"\nLoading: {input_lora}")
     state = load_file(input_lora)
@@ -95,4 +115,3 @@ for input_lora in input_files:
     print("Keep keys:")
     for k in keep_keys:
         print(" -", k)
-

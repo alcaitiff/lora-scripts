@@ -1,5 +1,6 @@
-import torch
+import argparse
 import os
+import torch
 from collections import OrderedDict
 
 def remap_flux_lora_keys(old_state_dict):
@@ -80,43 +81,52 @@ def remap_flux_lora_keys(old_state_dict):
 
 # ── Usage example ────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    input_path  = "klein-9b-turn2real_v1_ep4.safetensors"
-    output_path = "klein-9b-turn2real_renamed.safetensors"
+    parser = argparse.ArgumentParser(description="Remap Flux LoRA keys")
+    parser.add_argument("input", help="Input .safetensors file")
+    parser.add_argument("--out", default=None, help="Output .safetensors file")
+    args = parser.parse_args()
 
+    input_path = args.input
     if not os.path.isfile(input_path):
         print(f"File not found: {input_path}")
-    else:
-        print("Loading LoRA...")
+        raise SystemExit(1)
 
-        try:
-            from safetensors.torch import load_file, save_file
-            state_dict = load_file(input_path, device="cpu")
-            print(f"Loaded {len(state_dict)} keys using safetensors.")
-        except ImportError:
-            print("safetensors library not found.")
-            print("Install it with:   pip install safetensors")
-            exit(1)
-        except Exception as e:
-            print(f"Failed to load with safetensors: {e}")
-            print("Falling back to torch.load (unsafe for .pt files only)...")
-            state_dict = torch.load(input_path, map_location="cpu", weights_only=False)
+    base, ext = os.path.splitext(input_path)
+    if not ext:
+        ext = ".safetensors"
+    output_path = args.out or f"{base}_renamed{ext}"
 
-        # Unwrap if needed (some trainers wrap the dict)
-        if "state_dict" in state_dict:
-            state_dict = state_dict["state_dict"]
-        # rare ai-toolkit style wrapper
-        elif len(state_dict) > 0 and isinstance(next(iter(state_dict.values())), dict):
-            # sometimes it's {"lora": {...}} or similar — adjust if needed
-            pass
+    print("Loading LoRA...")
 
-        print("Remapping keys...")
-        new_sd = remap_flux_lora_keys(state_dict)
+    try:
+        from safetensors.torch import load_file, save_file
+        state_dict = load_file(input_path, device="cpu")
+        print(f"Loaded {len(state_dict)} keys using safetensors.")
+    except ImportError:
+        print("safetensors library not found.")
+        print("Install it with:   pip install safetensors")
+        raise SystemExit(1)
+    except Exception as e:
+        print(f"Failed to load with safetensors: {e}")
+        print("Falling back to torch.load (unsafe for .pt files only)...")
+        state_dict = torch.load(input_path, map_location="cpu", weights_only=False)
 
-        # Optional: print a few new keys to verify
-        print("Sample remapped keys:")
-        for k in list(new_sd.keys())[:8]:
-            print("   ", k)
+    # Unwrap if needed (some trainers wrap the dict)
+    if "state_dict" in state_dict:
+        state_dict = state_dict["state_dict"]
+    # rare ai-toolkit style wrapper
+    elif len(state_dict) > 0 and isinstance(next(iter(state_dict.values())), dict):
+        # sometimes it's {"lora": {...}} or similar — adjust if needed
+        pass
 
-        print(f"Saving to {output_path}")
-        save_file(new_sd, output_path)
-        print("Done! You can now try loading this LoRA in ComfyUI / Forge etc.")
+    print("Remapping keys...")
+    new_sd = remap_flux_lora_keys(state_dict)
+
+    # Optional: print a few new keys to verify
+    print("Sample remapped keys:")
+    for k in list(new_sd.keys())[:8]:
+        print("   ", k)
+
+    print(f"Saving to {output_path}")
+    save_file(new_sd, output_path)
+    print("Done! You can now try loading this LoRA in ComfyUI / Forge etc.")

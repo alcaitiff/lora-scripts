@@ -1,10 +1,12 @@
-import torch
 import argparse
+import os
+import torch
 from safetensors.torch import load_file, save_file
 
 parser = argparse.ArgumentParser(description="Reduce LoRA rank using GPU SVD")
 parser.add_argument("input", help="Input LoRA safetensors file")
-parser.add_argument("output", help="Output LoRA safetensors file")
+parser.add_argument("output", nargs="?", default=None, help="Output LoRA safetensors file")
+parser.add_argument("--out", default=None, help="Output LoRA safetensors file")
 parser.add_argument("--rank", type=int, required=True, help="Target rank")
 
 args = parser.parse_args()
@@ -38,6 +40,13 @@ def reduce_lora(A, B, rank):
     return A_new.to(orig_dtype).cpu(), B_new.to(orig_dtype).cpu()
 
 
+output_path = args.out or args.output
+if output_path is None:
+    base, ext = os.path.splitext(args.input)
+    if not ext:
+        ext = ".safetensors"
+    output_path = f"{base}_rank{args.rank}{ext}"
+
 sd = load_file(args.input)
 new_sd = {}
 
@@ -68,6 +77,6 @@ for k in sd.keys():
     else:
         new_sd[k] = sd[k]
 
-save_file(new_sd, args.output)
+save_file(new_sd, output_path)
 
-print("Saved reduced LoRA:", args.output)
+print("Saved reduced LoRA:", output_path)

@@ -1,14 +1,15 @@
 # lora_shapes.py
 # Run it like: python lora_shapes.py your_lora_file.safetensors
 
-import sys
+import argparse
 from safetensors.torch import load_file
 
-if len(sys.argv) != 2:
-    print("Usage: python lora_shapes.py <path_to_lora.safetensors>")
-    sys.exit(1)
+parser = argparse.ArgumentParser(description="Print LoRA tensor shapes")
+parser.add_argument("input", help="Input .safetensors file")
+parser.add_argument("--out", default=None, help="Output text file")
+args = parser.parse_args()
 
-lora_path = sys.argv[1]
+lora_path = args.input
 
 try:
     state_dict = load_file(lora_path, device='cpu')
@@ -16,8 +17,14 @@ except Exception as e:
     print(f"Error loading file: {e}")
     sys.exit(1)
 
-print(f"\nLoRA file: {lora_path}")
-print(f"Total parameters: {len(state_dict)}\n")
+lines = []
+
+def emit(line=""):
+    print(line)
+    lines.append(line)
+
+emit(f"\nLoRA file: {lora_path}")
+emit(f"Total parameters: {len(state_dict)}\n")
 
 # Group by block number for easier reading
 from collections import defaultdict
@@ -29,10 +36,10 @@ for key, tensor in state_dict.items():
 
 # Print in a clean, sorted way
 for block_num in sorted(blocks.keys(), key=int):
-    print(f"double_blocks.{block_num}:")
+    emit(f"double_blocks.{block_num}:")
     for full_key, shape_info in sorted(blocks[block_num]):
-        print(f"  {full_key:.<65} {shape_info}")
-    print()
+        emit(f"  {full_key:.<65} {shape_info}")
+    emit()
 
 # Also print single_blocks if they exist
 single_blocks = defaultdict(list)
@@ -43,16 +50,22 @@ for key, tensor in state_dict.items():
         single_blocks[block_num].append((key, shape_str))
 
 if single_blocks:
-    print("\nSingle blocks:")
+    emit("\nSingle blocks:")
     for block_num in sorted(single_blocks.keys(), key=int):
-        print(f"single_blocks.{block_num}:")
+        emit(f"single_blocks.{block_num}:")
         for full_key, shape_info in sorted(single_blocks[block_num]):
-            print(f"  {full_key:.<65} {shape_info}")
-        print()
+            emit(f"  {full_key:.<65} {shape_info}")
+        emit()
 
 # Quick summary of problematic qkv ones
-print("\nQuick check - qkv weights:")
+emit("\nQuick check - qkv weights:")
 for key in state_dict:
     if 'qkv' in key:
         tensor = state_dict[key]
-        print(f"{key:.<70} shape = {tensor.shape}   elements = {tensor.numel():,}")
+        emit(f"{key:.<70} shape = {tensor.shape}   elements = {tensor.numel():,}")
+
+if args.out:
+    with open(args.out, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+        f.write("\n")
+    print(f"\nSaved report: {args.out}")

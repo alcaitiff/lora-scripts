@@ -1,21 +1,12 @@
-import sys
+import argparse
 import os
 from safetensors.torch import load_file, save_file
 
-if len(sys.argv) < 2:
-    print("Usage: python rename.py <lora_file.safetensors>")
-    sys.exit(1)
-
-input_file = sys.argv[1]
-
-if not os.path.exists(input_file):
-    print("File not found:", input_file)
-    sys.exit(1)
-
-output_file = os.path.splitext(input_file)[0] + "_converted.safetensors"
-
-sd = load_file(input_file)
-new_sd = {}
+def parse_args():
+    parser = argparse.ArgumentParser(description="Convert modeldiff-style LoRA keys")
+    parser.add_argument("input", help="Input .safetensors file")
+    parser.add_argument("--out", default=None, help="Output .safetensors file")
+    return parser.parse_args()
 
 def convert_key(k):
     if not k.startswith("lora_unet_"):
@@ -42,12 +33,30 @@ def convert_key(k):
 
     return "diffusion_model." + path + "." + parts[-2] + "." + parts[-1]
 
-for k, v in sd.items():
-    new_k = convert_key(k)
-    if new_k:
-        new_sd[new_k] = v
+def main():
+    args = parse_args()
 
-save_file(new_sd, output_file)
+    input_file = args.input
+    if not os.path.exists(input_file):
+        print("File not found:", input_file)
+        raise SystemExit(1)
 
-print(f"Converted {len(new_sd)} keys")
-print("Saved to:", output_file)
+    output_file = args.out
+    if output_file is None:
+        output_file = os.path.splitext(input_file)[0] + "_converted.safetensors"
+
+    sd = load_file(input_file)
+    new_sd = {}
+
+    for k, v in sd.items():
+        new_k = convert_key(k)
+        if new_k:
+            new_sd[new_k] = v
+
+    save_file(new_sd, output_file)
+
+    print(f"Converted {len(new_sd)} keys")
+    print("Saved to:", output_file)
+
+if __name__ == "__main__":
+    main()
