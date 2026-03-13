@@ -26,7 +26,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "--match",
     nargs="+",
-    required=True,
+    required=False,
     help="One or more substrings to match against tensor keys",
 )
 parser.add_argument(
@@ -98,7 +98,8 @@ if not args.inputs:
     print("Tip: add `--` before your input files if you pass a long --match list.")
     sys.exit(1)
 
-combined_matches = list(args.match) + block_matches
+match_list = args.match or []
+combined_matches = list(match_list) + block_matches
 if not combined_matches:
     print("No match substrings provided.")
     sys.exit(1)

@@ -124,6 +124,7 @@ python prune.py --match ".attention." ".layers.20." file1.safetensors file2.safe
 python prune.py --match ".attention." "to_k" "name*.safetensors"
 python prune.py --match ".attention." --dry-run "name*.safetensors"
 python prune.py --match ".attention." --blocks 4 7 10-13 lora.safetensors
+python prune.py --blocks 4 7 10-13 lora.safetensors
 ```
 
 Behavior:
@@ -131,7 +132,7 @@ Behavior:
 - Writes `<input>_pruned.safetensors` for each input file.
 - With `--dry-run`, prints what would be removed and does not write output.
 - If inputs are omitted, the script will try to infer any existing files/globs that were accidentally included in `--match`.
- - `--blocks` adds match substrings like `block.<n>.` and works alongside `--match`.
+- `--blocks` adds match substrings like `block.<n>.` and works alongside `--match`.
 
 ---
 
