@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
-Remove LoRA tensors whose keys contain any of the provided substrings
-by deleting them from the safetensors file and saving a new one.
+Remove LoRA tensors by matching tensor-key substrings and writing a new safetensors file.
+
+- Default: removes keys that contain any provided `--match` (and/or `--blocks`) substrings.
+- If any `--match` token starts with `!`: keeps only keys matching at least one `!` token, removing the rest.
 
 Usage:
   ./prune.py --match ".attention." ".layers.20." file1.safetensors file2.safetensors
@@ -10,6 +12,7 @@ Usage:
   ./prune.py --match ".attention." --blocks 4 7 10-13 lora.safetensors
   ./prune.py --blocks 4 7 10-13 lora.safetensors
   ./prune.py --match ".attention." input.safetensors --out pruned.safetensors
+  ./prune.py --match "!to_k" "!to_v" input.safetensors   # keep-only mode
 """
 
 from safetensors.torch import load_file, save_file
@@ -18,20 +21,38 @@ import glob
 import os
 import sys
 
-def should_remove(key: str, substrings) -> bool:
-    return any(s in key for s in substrings)
+def split_match_tokens(tokens):
+    include = []
+    exclude = []
+    for tok in tokens or []:
+        if tok.startswith("!"):
+            if tok == "!":
+                raise ValueError("Invalid --match token '!': empty include substring")
+            include.append(tok[1:])
+        else:
+            exclude.append(tok)
+    return include, exclude
+
+
+def should_remove(key: str, include_substrings, exclude_substrings) -> bool:
+    # If any include substrings are present, keep only keys that match at least one.
+    if include_substrings:
+        if not any(s in key for s in include_substrings):
+            return True
+    # Always drop keys matching any exclude substring.
+    return any(s in key for s in exclude_substrings)
 
 # =========================
 # INPUT FILES
 # =========================
 parser = argparse.ArgumentParser(
-    description="Remove tensors whose keys contain any of the provided substrings"
+    description="Prune tensors by key substring match (supports keep-only mode via '!')"
 )
 parser.add_argument(
     "--match",
     nargs="+",
     required=False,
-    help="One or more substrings to match against tensor keys",
+    help="Substrings to match against tensor keys. Prefix with '!' to keep only matching keys (whitelist mode).",
 )
 parser.add_argument(
     "--blocks",
@@ -114,11 +135,12 @@ if args.blocks:
     for i in uniq:
         block_matches.append(f"block.{i}.")
         block_matches.append(f"blocks.{i}.")
+        block_matches.append(f".layers.{i}.")
         block_matches.append(f"transformer_blocks.{i}.")
 
 # If inputs were omitted, try to infer them from --match tokens.
 # This handles cases where a long --match list swallows the inputs.
-if not args.inputs:
+if not args.inputs and args.match:
     inferred_inputs = []
     remaining_matches = []
     for token in args.match:
@@ -142,8 +164,14 @@ if not args.inputs:
     sys.exit(1)
 
 match_list = args.match or []
-combined_matches = list(match_list) + block_matches
-if not combined_matches:
+try:
+    include_matches, exclude_matches = split_match_tokens(match_list)
+except ValueError as e:
+    print(str(e))
+    sys.exit(1)
+
+exclude_matches = list(exclude_matches) + block_matches
+if not include_matches and not exclude_matches:
     print("No match substrings provided.")
     sys.exit(1)
 
@@ -178,6 +206,7 @@ if args.out:
 for input_lora in input_files:
     base, ext = os.path.splitext(input_lora)
     output_lora = output_override or f"{base}_pruned{ext}"
+    mode = "keep-only" if include_matches else "remove-matching"
 
     print(f"\nLoading: {input_lora}")
     state = load_file(input_lora)
@@ -187,7 +216,7 @@ for input_lora in input_files:
     keep_keys = []
 
     for key, tensor in state.items():
-        if should_remove(key, combined_matches):
+        if should_remove(key, include_matches, exclude_matches):
             removed_keys.append(key)
             continue
         new_state[key] = tensor
@@ -204,6 +233,7 @@ for input_lora in input_files:
     print(f"Total tensors      : {len(state)}")
     print(f"Removed tensors    : {len(removed_keys)}")
     print(f"Kept tensors       : {len(keep_keys)}")
+    print(f"Match mode         : {mode}")
     if args.dry_run:
         print("Mode               : dry-run (no file written)")
     print("===================================")

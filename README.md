@@ -131,10 +131,12 @@ python prune.py --match ".attention." --dry-run "name*.safetensors"
 python prune.py --match ".attention." --blocks 4 7 10-13 lora.safetensors
 python prune.py --blocks 4 7 10-13 lora.safetensors
 python prune.py --match ".attention." input.safetensors --out pruned.safetensors
+python prune.py --match "!to_k" "!to_v" input.safetensors  # keep-only mode
 ```
 
 Behavior:
-- Removes any key that contains one of the `--match` substrings.
+- Default: removes any key that contains one of the `--match` substrings.
+- If any `--match` substring starts with `!`, the script switches to keep-only mode and removes keys that do **not** match any `!` substring (non-`!` substrings are still removed as usual).
 - Writes `<input>_pruned.safetensors` for each input file.
 - With `--dry-run`, prints what would be removed and does not write output.
 - If inputs are omitted, the script will try to infer any existing files/globs that were accidentally included in `--match`.
