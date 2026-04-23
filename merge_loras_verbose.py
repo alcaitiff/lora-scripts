@@ -69,6 +69,14 @@ def parse_args():
     parser.add_argument("--alpha_a", type=float, default=0.7, help="Weight for LoRA A")
     parser.add_argument("--alpha_b", type=float, default=0.3, help="Weight for LoRA B")
     parser.add_argument("--out", default=None, help="Output safetensors file")
+    parser.add_argument(
+        "--scale-lone", action="store_true",
+        help=(
+            "Scale tensors that exist in only one LoRA by that LoRA's alpha weight. "
+            "Without this flag, lone tensors are copied as-is. With it, a tensor "
+            "only in A is multiplied by alpha_a, and a tensor only in B by alpha_b."
+        )
+    )
 
     args = parser.parse_args()
 
@@ -240,12 +248,24 @@ def main():
                 merged[key] = ta.clone()
 
         elif key in lora_a:
-            merged[key] = lora_a[key].clone()
-            print("  • Only in A → copied\n")
+            tensor_a = lora_a[key].clone()
+            if args.scale_lone:
+                tensor_a = tensor_a * args.alpha_a
+                merged[key] = tensor_a
+                print(f"  • Only in A → scaled by alpha_a ({args.alpha_a})\n")
+            else:
+                merged[key] = tensor_a
+                print("  • Only in A → copied\n")
 
         else:
-            merged[key] = lora_b[key].clone()
-            print("  • Only in B → copied\n")
+            tensor_b = lora_b[key].clone()
+            if args.scale_lone:
+                tensor_b = tensor_b * args.alpha_b
+                merged[key] = tensor_b
+                print(f"  • Only in B → scaled by alpha_b ({args.alpha_b})\n")
+            else:
+                merged[key] = tensor_b
+                print("  • Only in B → copied\n")
 
     save_file(merged, args.out)
 
