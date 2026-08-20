@@ -32,6 +32,23 @@ def emit(line=""):
     print(line)
     lines.append(line)
 
+
+def format_tensor_info(key, tensor):
+    """Format shape information, including the actual contents of alpha tensors."""
+    info = f"{list(tensor.shape)}  ({tensor.numel():>10,} elements)"
+    if key.endswith((".alpha", ".lora_alpha")):
+        dtype = str(tensor.dtype).replace("torch.", "")
+        if tensor.numel() == 0:
+            value = "<EMPTY>"
+        elif tensor.numel() == 1:
+            value = repr(tensor.item())
+        else:
+            values = tensor.detach().flatten()[:8].tolist()
+            suffix = "..." if tensor.numel() > 8 else ""
+            value = f"{values}{suffix}"
+        info += f"  dtype={dtype}  value={value}"
+    return info
+
 emit(f"LoRA file: {lora_path}")
 emit(f"Total parameters: {len(state_dict)}")
 emit()
@@ -51,13 +68,13 @@ for key, tensor in state_dict.items():
     m = pattern.match(key)
     if not m:
         # Keys that don't match the pattern (e.g. non-block keys)
-        shape_str = f"{list(tensor.shape)}  ({tensor.numel():>10,} elements)"
+        shape_str = format_tensor_info(key, tensor)
         sections["__unmatched__"]["__none__"].append((key, shape_str))
         continue
     prefix = m.group(1)
     block_num = m.group(2)
     rest = m.group(3)
-    shape_str = f"{list(tensor.shape)}  ({tensor.numel():>10,} elements)"
+    shape_str = format_tensor_info(key, tensor)
     sections[prefix][block_num].append((key, shape_str))
 
 # ---------------------------------------------------------------------------
