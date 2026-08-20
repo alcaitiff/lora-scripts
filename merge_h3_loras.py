@@ -9,7 +9,7 @@ For each layer tensor:
 
 Preserves ai-toolkit metadata (ss_base_model_version = minimax_h3) and updates
 ss_output_name. Validates that inputs look like H3 LoRAs (diffusion_model
-prefix, qkv_proj/fc1/fc2 layers) to avoid silently merging krea2 files.
+prefix, qkv_proj/fc1/fc2 layers) to avoid silently merging bad files.
 
 Usage:
   python merge_h3_loras.py /path/to/h3_folder --rank 32
@@ -36,15 +36,13 @@ def format_time(seconds):
     return f"{seconds/60:.1f}m {seconds%60:.0f}s"
 
 
-# Layers unique to H3 architecture (present in MiniMax H3 but NOT krea2)
+# Layers unique for H3 architecture
 H3_LAYER_MARKERS = ["qkv_proj", "token_refiner", ".fc1.", ".fc2.", "qkv_proj", "lora_down"]
-# Layers unique to krea2 (present in krea2 loras but NOT H3)
-KREA2_LAYER_MARKERS = [".gate.", ".wk.", ".wv.", ".wo.", "adaln_proj"]
 
-# Mapping from Krea2-style key names to standard H3 key names
-# Krea2: lora_unet_blocks_{N}_{layer}.lora_down.weight / lora_up.weight
-# H3:    diffusion_model.blocks.{N}.{layer}.lora_A.weight / lora_B.weight
-KREA2_LAYER_MAP = {
+# Mapping from Musubi-style key names to standard ComfyUI key names
+# Musubi:  lora_unet_blocks_{N}_{layer}.lora_down.weight / lora_up.weight
+# ComfyUI: diffusion_model.blocks.{N}.{layer}.lora_A.weight / lora_B.weight
+MUSUBI_LAYER_MAP = {
     "adaln_proj_linear": "adaln_proj.linear",
     "attn_out_proj": "attn.out_proj",
     "attn_qkv_proj": "attn.qkv_proj",
@@ -53,8 +51,8 @@ KREA2_LAYER_MAP = {
 }
 
 
-def krea2_to_h3_key(key):
-    """Convert Krea2-style key to H3-style key.
+def musubi_to_comfyui_key(key):
+    """Convert a Musubi-style key to a ComfyUI-style key.
 
     lora_unet_blocks_5_adaln_proj_linear.lora_down.weight
       -> diffusion_model.blocks.5.adaln_proj.linear.lora_A.weight
@@ -62,7 +60,7 @@ def krea2_to_h3_key(key):
     lora_unet_token_refiner_blocks_0_mlp_fc1.lora_up.weight
       -> diffusion_model.token_refiner.blocks.0.mlp.fc1.lora_B.weight
 
-    Returns None if the key doesn't match Krea2 pattern.
+    Returns None if the key doesn't match the Musubi pattern.
     """
     import re
     # Pattern: lora_unet_blocks_{N}_{layer}.{suffix}
@@ -72,10 +70,10 @@ def krea2_to_h3_key(key):
     )
     if m:
         block_n, layer_name, direction = m.groups()
-        h3_layer = KREA2_LAYER_MAP.get(layer_name)
-        if h3_layer:
+        comfyui_layer = MUSUBI_LAYER_MAP.get(layer_name)
+        if comfyui_layer:
             suffix = "lora_A.weight" if direction == "down" else "lora_B.weight"
-            return f"diffusion_model.blocks.{block_n}.{h3_layer}.{suffix}"
+            return f"diffusion_model.blocks.{block_n}.{comfyui_layer}.{suffix}"
     # Pattern: lora_unet_token_refiner_blocks_{N}_{layer}.{suffix}
     m = re.match(
         r"lora_unet_token_refiner_blocks_(\d+)_([a-z0-9_]+)\.lora_(down|up)\.weight",
@@ -83,18 +81,18 @@ def krea2_to_h3_key(key):
     )
     if m:
         block_n, layer_name, direction = m.groups()
-        h3_layer = KREA2_LAYER_MAP.get(layer_name)
-        if h3_layer:
+        comfyui_layer = MUSUBI_LAYER_MAP.get(layer_name)
+        if comfyui_layer:
             suffix = "lora_A.weight" if direction == "down" else "lora_B.weight"
-            return f"diffusion_model.token_refiner.blocks.{block_n}.{h3_layer}.{suffix}"
+            return f"diffusion_model.token_refiner.blocks.{block_n}.{comfyui_layer}.{suffix}"
     return None
 
 
 def normalize_keys(sd):
-    """Normalize state dict keys to H3 standard format.
+    """Normalize state dict keys to the standard ComfyUI format.
 
-    Detects Krea2-style naming (lora_unet_blocks_X_...) and converts to
-    diffusion_model.blocks.X....lora_A.weight / lora_B.weight format.
+    Detects Musubi-style naming (lora_unet_blocks_X_...) and converts it to
+    diffusion_model.blocks.X....lora_A.weight / lora_B.weight naming.
 
     Also handles alpha keys: .alpha -> lora_alpha (scalar metadata).
     Returns a new state dict with normalized keys.
@@ -102,14 +100,17 @@ def normalize_keys(sd):
     import re
     new_sd = {}
     for key, val in sd.items():
-        # Try Krea2 -> H3 conversion for weight tensors
-        new_key = krea2_to_h3_key(key)
+        # Empty alpha tensors are placeholders, not usable LoRA metadata.
+        if key.endswith((".alpha", ".lora_alpha")) and val.numel() == 0:
+            continue
+        # Try Musubi -> ComfyUI conversion for weight tensors
+        new_key = musubi_to_comfyui_key(key)
         if new_key:
             new_sd[new_key] = val
         elif key.endswith(".alpha"):
             # Convert alpha keys too
             base = key.rsplit(".", 1)[0]
-            new_base = krea2_to_h3_key(base + ".lora_down.weight")
+            new_base = musubi_to_comfyui_key(base + ".lora_down.weight")
             if new_base:
                 # lora_alpha lives alongside lora_A/lora_B
                 alpha_key = new_base.replace(".lora_A.weight", ".lora_alpha")
@@ -121,37 +122,47 @@ def normalize_keys(sd):
     return new_sd
 
 
+def normalize_alpha_keys(sd):
+    """Canonicalize alpha aliases and omit zero-element alpha tensors."""
+    new_sd = {}
+    for key, val in sd.items():
+        if key.endswith((".alpha", ".lora_alpha")):
+            if val.numel() == 0:
+                continue
+            # ComfyUI uses lora_alpha; do not let the older .alpha alias
+            # pass through and create duplicate alpha entries.
+            canonical_key = key[:-len(".alpha")] + ".lora_alpha" \
+                if key.endswith(".alpha") else key
+            new_sd.setdefault(canonical_key, val)
+        else:
+            new_sd[key] = val
+    return new_sd
+
+
 def detect_key_style(sd):
-    """Return 'krea2' or 'h3' based on key naming convention."""
+    """Return 'musubi' or 'comfyui' based on key naming convention."""
     keys = list(sd.keys())
-    has_krea2 = any("lora_unet_blocks_" in k for k in keys)
-    has_h3 = any("diffusion_model.blocks." in k and "lora_A.weight" in k for k in keys)
-    if has_krea2:
-        return "krea2"
-    if has_h3:
-        return "h3"
+    has_musubi = any("lora_unet_blocks_" in k for k in keys)
+    has_comfyui = any("diffusion_model.blocks." in k and "lora_A.weight" in k for k in keys)
+    if has_musubi:
+        return "musubi"
+    if has_comfyui:
+        return "comfyui"
     return "unknown"
 
 
 def looks_like_h3(sd):
-    """Return ('h3'|'krea2'|'unknown', reason) for a state dict."""
+    """Return ('h3'|'unknown', reason) for a state dict."""
     keys = list(sd.keys())
     if not any("lora_A.weight" in k or "lora_down.weight" in k for k in keys):
         return "unknown", "no LoRA weight tensors found"
     joined = "|" + "|".join(keys)
     h3_hits = sum(1 for m in H3_LAYER_MARKERS if m in joined)
-    krea2_hits = sum(1 for m in KREA2_LAYER_MARKERS if m in joined)
-    if h3_hits >= 2 and krea2_hits == 0:
-        return "h3", "qkv_proj/fc1/fc2/token_refiner layers detected"
-    if krea2_hits >= 2 and h3_hits == 0:
-        return "krea2", "gate/wk/wv/wo layers detected"
-    if h3_hits > krea2_hits:
-        return "h3", f"mixed markers (h3:{h3_hits}, krea2:{krea2_hits})"
-    if krea2_hits > 0:
-        return "krea2", f"mixed markers (h3:{h3_hits}, krea2:{krea2_hits})"
-    # Check for Krea2 H3 naming
+    # Check for Musubi H3 naming
     if any("lora_unet_blocks_" in k for k in keys):
-        return "h3", "Krea2-style H3 LoRA (lora_unet_blocks_X pattern)"
+        return "h3", "Musubi-style H3 LoRA (lora_unet_blocks_X pattern)"
+    if h3_hits >= 2:
+        return "h3", "qkv_proj/fc1/fc2/token_refiner layers detected"
     return "unknown", "no recognizable layer markers"
 
 
@@ -330,9 +341,10 @@ def main():
         style = detect_key_style(sd)
         families.append(fam)
         styles.append(style)
-        if style == "krea2":
-            print(f"\n  {f.name}: Krea2 naming detected, normalizing to H3 format")
+        if style == "musubi":
+            print(f"\n  {f.name}: Musubi naming detected, normalizing to ComfyUI format")
             sd = normalize_keys(sd)
+        sd = normalize_alpha_keys(sd)
         all_sd.append(sd)
         if fam != "h3":
             print(f"\n  ⚠ {f.name}: {fam} ({why})")
