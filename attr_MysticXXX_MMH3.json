@@ -1,0 +1,802 @@
+{
+  "lora_unet_blocks_0_attn_qkv_proj": {
+    "audio_norm": 0.028455749414759392,
+    "video_norm": 0.20283774464909388
+  },
+  "lora_unet_blocks_0_attn_out_proj": {
+    "audio_norm": 0.009845557996652278,
+    "video_norm": 0.06243445629098127
+  },
+  "lora_unet_blocks_0_mlp_fc1": {
+    "audio_norm": 0.01756881482410824,
+    "video_norm": 0.08758673978691144
+  },
+  "lora_unet_blocks_0_mlp_fc2": {
+    "audio_norm": 0.027746230568017654,
+    "video_norm": 0.10937652927651349
+  },
+  "lora_unet_blocks_1_attn_qkv_proj": {
+    "audio_norm": 0.016742693159354848,
+    "video_norm": 0.15674810764832528
+  },
+  "lora_unet_blocks_1_attn_out_proj": {
+    "audio_norm": 0.010272728075356473,
+    "video_norm": 0.10452483491549734
+  },
+  "lora_unet_blocks_1_mlp_fc1": {
+    "audio_norm": 0.005671094351575977,
+    "video_norm": 0.04473694378588917
+  },
+  "lora_unet_blocks_1_mlp_fc2": {
+    "audio_norm": 0.00882947436035703,
+    "video_norm": 0.08331216736008491
+  },
+  "lora_unet_blocks_2_attn_qkv_proj": {
+    "audio_norm": 0.025719755765612917,
+    "video_norm": 0.22033063374838902
+  },
+  "lora_unet_blocks_2_attn_out_proj": {
+    "audio_norm": 0.006056054587326627,
+    "video_norm": 0.05734090407000817
+  },
+  "lora_unet_blocks_2_mlp_fc1": {
+    "audio_norm": 0.008428366576188487,
+    "video_norm": 0.06586088114768664
+  },
+  "lora_unet_blocks_2_mlp_fc2": {
+    "audio_norm": 0.003751116562596968,
+    "video_norm": 0.02993857466676697
+  },
+  "lora_unet_blocks_3_attn_qkv_proj": {
+    "audio_norm": 0.01300697189476639,
+    "video_norm": 0.10971918555270564
+  },
+  "lora_unet_blocks_3_attn_out_proj": {
+    "audio_norm": 0.009719414161888712,
+    "video_norm": 0.09269097666812827
+  },
+  "lora_unet_blocks_3_mlp_fc1": {
+    "audio_norm": 0.008924845541408898,
+    "video_norm": 0.05063043265499073
+  },
+  "lora_unet_blocks_3_mlp_fc2": {
+    "audio_norm": 0.0044631353635314,
+    "video_norm": 0.017810286999727636
+  },
+  "lora_unet_blocks_4_attn_qkv_proj": {
+    "audio_norm": 0.012114833766837717,
+    "video_norm": 0.10256751304367824
+  },
+  "lora_unet_blocks_4_attn_out_proj": {
+    "audio_norm": 0.004747911950398478,
+    "video_norm": 0.034915084964615456
+  },
+  "lora_unet_blocks_4_mlp_fc1": {
+    "audio_norm": 0.016366467703266236,
+    "video_norm": 0.07312216110649991
+  },
+  "lora_unet_blocks_4_mlp_fc2": {
+    "audio_norm": 0.006569848284227547,
+    "video_norm": 0.020207696273117567
+  },
+  "lora_unet_blocks_5_attn_qkv_proj": {
+    "audio_norm": 0.015324998005661969,
+    "video_norm": 0.061823530824763016
+  },
+  "lora_unet_blocks_5_attn_out_proj": {
+    "audio_norm": 0.007626263732470401,
+    "video_norm": 0.05306110003875294
+  },
+  "lora_unet_blocks_5_mlp_fc1": {
+    "audio_norm": 0.0068612704042688814,
+    "video_norm": 0.03417143609900418
+  },
+  "lora_unet_blocks_5_mlp_fc2": {
+    "audio_norm": 0.004232819680288719,
+    "video_norm": 0.014876984020458185
+  },
+  "lora_unet_blocks_6_attn_qkv_proj": {
+    "audio_norm": 0.020242672644415156,
+    "video_norm": 0.19351606593390583
+  },
+  "lora_unet_blocks_6_attn_out_proj": {
+    "audio_norm": 0.007757807355783956,
+    "video_norm": 0.07524425170229974
+  },
+  "lora_unet_blocks_6_mlp_fc1": {
+    "audio_norm": 0.006582935946611727,
+    "video_norm": 0.05925536670988927
+  },
+  "lora_unet_blocks_6_mlp_fc2": {
+    "audio_norm": 0.002390823228660953,
+    "video_norm": 0.020098848137716233
+  },
+  "lora_unet_blocks_7_attn_qkv_proj": {
+    "audio_norm": 0.007717228242180686,
+    "video_norm": 0.05869971425285569
+  },
+  "lora_unet_blocks_7_attn_out_proj": {
+    "audio_norm": 0.0039626339913190435,
+    "video_norm": 0.03855684769696355
+  },
+  "lora_unet_blocks_7_mlp_fc1": {
+    "audio_norm": 0.004151551562062941,
+    "video_norm": 0.03091580910384686
+  },
+  "lora_unet_blocks_7_mlp_fc2": {
+    "audio_norm": 0.0020532047759599524,
+    "video_norm": 0.012885058007428044
+  },
+  "lora_unet_blocks_8_attn_qkv_proj": {
+    "audio_norm": 0.01190512220375664,
+    "video_norm": 0.11805068344391072
+  },
+  "lora_unet_blocks_8_attn_out_proj": {
+    "audio_norm": 0.003288629611034339,
+    "video_norm": 0.03184243981440666
+  },
+  "lora_unet_blocks_8_mlp_fc1": {
+    "audio_norm": 0.010911918731769022,
+    "video_norm": 0.11114054132045759
+  },
+  "lora_unet_blocks_8_mlp_fc2": {
+    "audio_norm": 0.0021156181417308403,
+    "video_norm": 0.02008821108478442
+  },
+  "lora_unet_blocks_9_attn_qkv_proj": {
+    "audio_norm": 0.013749243799517237,
+    "video_norm": 0.13763877660445814
+  },
+  "lora_unet_blocks_9_attn_out_proj": {
+    "audio_norm": 0.00899962682115093,
+    "video_norm": 0.08260886917946349
+  },
+  "lora_unet_blocks_9_mlp_fc1": {
+    "audio_norm": 0.005751584287257978,
+    "video_norm": 0.06231315087737796
+  },
+  "lora_unet_blocks_9_mlp_fc2": {
+    "audio_norm": 0.0014277180922988026,
+    "video_norm": 0.014106216596793513
+  },
+  "lora_unet_blocks_10_attn_qkv_proj": {
+    "audio_norm": 0.021474549717837733,
+    "video_norm": 0.20301342707272316
+  },
+  "lora_unet_blocks_10_attn_out_proj": {
+    "audio_norm": 0.005066654257090628,
+    "video_norm": 0.049483272756088735
+  },
+  "lora_unet_blocks_10_mlp_fc1": {
+    "audio_norm": 0.017267357705443232,
+    "video_norm": 0.1891524148583268
+  },
+  "lora_unet_blocks_10_mlp_fc2": {
+    "audio_norm": 0.003204034893253922,
+    "video_norm": 0.032902181522632586
+  },
+  "lora_unet_blocks_11_attn_qkv_proj": {
+    "audio_norm": 0.02253913673099114,
+    "video_norm": 0.2253785373263668
+  },
+  "lora_unet_blocks_11_attn_out_proj": {
+    "audio_norm": 0.007770117216066138,
+    "video_norm": 0.075926497458789
+  },
+  "lora_unet_blocks_11_mlp_fc1": {
+    "audio_norm": 0.010770619760502335,
+    "video_norm": 0.10947539176775632
+  },
+  "lora_unet_blocks_11_mlp_fc2": {
+    "audio_norm": 0.0027372432948276396,
+    "video_norm": 0.02194954006179474
+  },
+  "lora_unet_blocks_12_attn_qkv_proj": {
+    "audio_norm": 0.007305066447240689,
+    "video_norm": 0.06897113747943491
+  },
+  "lora_unet_blocks_12_attn_out_proj": {
+    "audio_norm": 0.01015872872001814,
+    "video_norm": 0.0993514151879001
+  },
+  "lora_unet_blocks_12_mlp_fc1": {
+    "audio_norm": 0.0136647427147087,
+    "video_norm": 0.14167783062121472
+  },
+  "lora_unet_blocks_12_mlp_fc2": {
+    "audio_norm": 0.0023246751164013742,
+    "video_norm": 0.02374682996426999
+  },
+  "lora_unet_blocks_13_attn_qkv_proj": {
+    "audio_norm": 0.01972634557248146,
+    "video_norm": 0.2014382957453248
+  },
+  "lora_unet_blocks_13_attn_out_proj": {
+    "audio_norm": 0.004950029642581664,
+    "video_norm": 0.04353082478573283
+  },
+  "lora_unet_blocks_13_mlp_fc1": {
+    "audio_norm": 0.0055650094068552085,
+    "video_norm": 0.05572010271343176
+  },
+  "lora_unet_blocks_13_mlp_fc2": {
+    "audio_norm": 0.003134741021229148,
+    "video_norm": 0.015609525653806968
+  },
+  "lora_unet_blocks_14_attn_qkv_proj": {
+    "audio_norm": 0.015749661274124506,
+    "video_norm": 0.16961299845760944
+  },
+  "lora_unet_blocks_14_attn_out_proj": {
+    "audio_norm": 0.008321631268746214,
+    "video_norm": 0.07778083964624145
+  },
+  "lora_unet_blocks_14_mlp_fc1": {
+    "audio_norm": 0.014250513789719692,
+    "video_norm": 0.14637673557265823
+  },
+  "lora_unet_blocks_14_mlp_fc2": {
+    "audio_norm": 0.003143356274500023,
+    "video_norm": 0.027994730170563874
+  },
+  "lora_unet_blocks_15_attn_qkv_proj": {
+    "audio_norm": 0.016955419641981117,
+    "video_norm": 0.15750613121783763
+  },
+  "lora_unet_blocks_15_attn_out_proj": {
+    "audio_norm": 0.008172835502243318,
+    "video_norm": 0.07500207273458953
+  },
+  "lora_unet_blocks_15_mlp_fc1": {
+    "audio_norm": 0.013806100707957618,
+    "video_norm": 0.1499119855169563
+  },
+  "lora_unet_blocks_15_mlp_fc2": {
+    "audio_norm": 0.0025410955010308884,
+    "video_norm": 0.023684143703267158
+  },
+  "lora_unet_blocks_16_attn_qkv_proj": {
+    "audio_norm": 0.014170340717693344,
+    "video_norm": 0.1178255431495062
+  },
+  "lora_unet_blocks_16_attn_out_proj": {
+    "audio_norm": 0.004144323604310451,
+    "video_norm": 0.02603199483385039
+  },
+  "lora_unet_blocks_16_mlp_fc1": {
+    "audio_norm": 0.014327027400971415,
+    "video_norm": 0.14679964998623776
+  },
+  "lora_unet_blocks_16_mlp_fc2": {
+    "audio_norm": 0.002424658598708996,
+    "video_norm": 0.024995541039560643
+  },
+  "lora_unet_blocks_17_attn_qkv_proj": {
+    "audio_norm": 0.013596101280291017,
+    "video_norm": 0.11429883018768776
+  },
+  "lora_unet_blocks_17_attn_out_proj": {
+    "audio_norm": 0.0073427039821372005,
+    "video_norm": 0.06623494985878454
+  },
+  "lora_unet_blocks_17_mlp_fc1": {
+    "audio_norm": 0.009140972456186641,
+    "video_norm": 0.09266051351248923
+  },
+  "lora_unet_blocks_17_mlp_fc2": {
+    "audio_norm": 0.002153755628019216,
+    "video_norm": 0.019023267190802325
+  },
+  "lora_unet_blocks_18_attn_qkv_proj": {
+    "audio_norm": 0.018150467352182797,
+    "video_norm": 0.1684588958361273
+  },
+  "lora_unet_blocks_18_attn_out_proj": {
+    "audio_norm": 0.00643957001828933,
+    "video_norm": 0.06890706039664736
+  },
+  "lora_unet_blocks_18_mlp_fc1": {
+    "audio_norm": 0.011916912677835718,
+    "video_norm": 0.1439379817329294
+  },
+  "lora_unet_blocks_18_mlp_fc2": {
+    "audio_norm": 0.0019451995008145544,
+    "video_norm": 0.02532946626307773
+  },
+  "lora_unet_blocks_19_attn_qkv_proj": {
+    "audio_norm": 0.016101849387908884,
+    "video_norm": 0.2167216223630771
+  },
+  "lora_unet_blocks_19_attn_out_proj": {
+    "audio_norm": 0.006632875350906402,
+    "video_norm": 0.07525570286821708
+  },
+  "lora_unet_blocks_19_mlp_fc1": {
+    "audio_norm": 0.0038599286247183793,
+    "video_norm": 0.053239126722116205
+  },
+  "lora_unet_blocks_19_mlp_fc2": {
+    "audio_norm": 0.0013347101586841546,
+    "video_norm": 0.017651925579180845
+  },
+  "lora_unet_blocks_20_attn_qkv_proj": {
+    "audio_norm": 0.013151988711701104,
+    "video_norm": 0.13711082333561578
+  },
+  "lora_unet_blocks_20_attn_out_proj": {
+    "audio_norm": 0.004627403912357107,
+    "video_norm": 0.04054557116260895
+  },
+  "lora_unet_blocks_20_mlp_fc1": {
+    "audio_norm": 0.006343054662047321,
+    "video_norm": 0.083952422316685
+  },
+  "lora_unet_blocks_20_mlp_fc2": {
+    "audio_norm": 0.0019525319046401542,
+    "video_norm": 0.024538317138360796
+  },
+  "lora_unet_blocks_21_attn_qkv_proj": {
+    "audio_norm": 0.010171094369366434,
+    "video_norm": 0.11738664709079054
+  },
+  "lora_unet_blocks_21_attn_out_proj": {
+    "audio_norm": 0.004106279694043716,
+    "video_norm": 0.03877527694895407
+  },
+  "lora_unet_blocks_21_mlp_fc1": {
+    "audio_norm": 0.006835083711796974,
+    "video_norm": 0.0853024129157472
+  },
+  "lora_unet_blocks_21_mlp_fc2": {
+    "audio_norm": 0.0016127526862899442,
+    "video_norm": 0.021445296449629208
+  },
+  "lora_unet_blocks_22_attn_qkv_proj": {
+    "audio_norm": 0.01886442402860722,
+    "video_norm": 0.219875237890772
+  },
+  "lora_unet_blocks_22_attn_out_proj": {
+    "audio_norm": 0.004474076568950827,
+    "video_norm": 0.05152649938161057
+  },
+  "lora_unet_blocks_22_mlp_fc1": {
+    "audio_norm": 0.008516307372336085,
+    "video_norm": 0.10442655220179976
+  },
+  "lora_unet_blocks_22_mlp_fc2": {
+    "audio_norm": 0.002194192847877252,
+    "video_norm": 0.02593172385092854
+  },
+  "lora_unet_blocks_23_attn_qkv_proj": {
+    "audio_norm": 0.01063924799582216,
+    "video_norm": 0.10360197316972046
+  },
+  "lora_unet_blocks_23_attn_out_proj": {
+    "audio_norm": 0.00946301957279654,
+    "video_norm": 0.09851436499517978
+  },
+  "lora_unet_blocks_23_mlp_fc1": {
+    "audio_norm": 0.011002646516042712,
+    "video_norm": 0.1399422933236157
+  },
+  "lora_unet_blocks_23_mlp_fc2": {
+    "audio_norm": 0.0031068773985129436,
+    "video_norm": 0.037662750945257416
+  },
+  "lora_unet_blocks_24_attn_qkv_proj": {
+    "audio_norm": 0.015887213827308885,
+    "video_norm": 0.1293234988499995
+  },
+  "lora_unet_blocks_24_attn_out_proj": {
+    "audio_norm": 0.010774248290500986,
+    "video_norm": 0.10299862913020512
+  },
+  "lora_unet_blocks_24_mlp_fc1": {
+    "audio_norm": 0.009442947306979603,
+    "video_norm": 0.1040378753913224
+  },
+  "lora_unet_blocks_24_mlp_fc2": {
+    "audio_norm": 0.003456328750881309,
+    "video_norm": 0.029012042047621867
+  },
+  "lora_unet_blocks_25_attn_qkv_proj": {
+    "audio_norm": 0.014452741667594582,
+    "video_norm": 0.1277240877720104
+  },
+  "lora_unet_blocks_25_attn_out_proj": {
+    "audio_norm": 0.007997649448141984,
+    "video_norm": 0.06044634873282509
+  },
+  "lora_unet_blocks_25_mlp_fc1": {
+    "audio_norm": 0.019545502095554494,
+    "video_norm": 0.1570488089822755
+  },
+  "lora_unet_blocks_25_mlp_fc2": {
+    "audio_norm": 0.0038316700586819206,
+    "video_norm": 0.032727577639594954
+  },
+  "lora_unet_blocks_26_attn_qkv_proj": {
+    "audio_norm": 0.016292277057055413,
+    "video_norm": 0.10129601156578633
+  },
+  "lora_unet_blocks_26_attn_out_proj": {
+    "audio_norm": 0.011615363843974899,
+    "video_norm": 0.08123673406695774
+  },
+  "lora_unet_blocks_26_mlp_fc1": {
+    "audio_norm": 0.011808572303831697,
+    "video_norm": 0.07833498097572288
+  },
+  "lora_unet_blocks_26_mlp_fc2": {
+    "audio_norm": 0.005677585240651324,
+    "video_norm": 0.03455068287373589
+  },
+  "lora_unet_blocks_27_attn_qkv_proj": {
+    "audio_norm": 0.021142842084985587,
+    "video_norm": 0.133322751121527
+  },
+  "lora_unet_blocks_27_attn_out_proj": {
+    "audio_norm": 0.012773075461053827,
+    "video_norm": 0.06288394898141243
+  },
+  "lora_unet_blocks_27_mlp_fc1": {
+    "audio_norm": 0.022358030662028697,
+    "video_norm": 0.09327246122932938
+  },
+  "lora_unet_blocks_27_mlp_fc2": {
+    "audio_norm": 0.01000154261821569,
+    "video_norm": 0.044435147780661134
+  },
+  "lora_unet_blocks_28_attn_qkv_proj": {
+    "audio_norm": 0.02958563597612258,
+    "video_norm": 0.17559265128460746
+  },
+  "lora_unet_blocks_28_attn_out_proj": {
+    "audio_norm": 0.012387390334137898,
+    "video_norm": 0.059516824591685315
+  },
+  "lora_unet_blocks_28_mlp_fc1": {
+    "audio_norm": 0.024916921040369314,
+    "video_norm": 0.10427300575017268
+  },
+  "lora_unet_blocks_28_mlp_fc2": {
+    "audio_norm": 0.014550471778240691,
+    "video_norm": 0.05110107776598538
+  },
+  "lora_unet_blocks_29_attn_qkv_proj": {
+    "audio_norm": 0.03714123920709464,
+    "video_norm": 0.16163805204641832
+  },
+  "lora_unet_blocks_29_attn_out_proj": {
+    "audio_norm": 0.016613925310796963,
+    "video_norm": 0.08535794275477143
+  },
+  "lora_unet_blocks_29_mlp_fc1": {
+    "audio_norm": 0.043977975309449246,
+    "video_norm": 0.12164658687734091
+  },
+  "lora_unet_blocks_29_mlp_fc2": {
+    "audio_norm": 0.016954870168252496,
+    "video_norm": 0.06433245919777678
+  },
+  "lora_unet_blocks_30_attn_qkv_proj": {
+    "audio_norm": 0.03140792916171731,
+    "video_norm": 0.11080384362958684
+  },
+  "lora_unet_blocks_30_attn_out_proj": {
+    "audio_norm": 0.0219456576088853,
+    "video_norm": 0.09254078542424521
+  },
+  "lora_unet_blocks_30_mlp_fc1": {
+    "audio_norm": 0.04040613151235941,
+    "video_norm": 0.104926935492083
+  },
+  "lora_unet_blocks_30_mlp_fc2": {
+    "audio_norm": 0.017587403114556904,
+    "video_norm": 0.06216207146937223
+  },
+  "lora_unet_blocks_31_attn_qkv_proj": {
+    "audio_norm": 0.03087413399727996,
+    "video_norm": 0.0899429648823243
+  },
+  "lora_unet_blocks_31_attn_out_proj": {
+    "audio_norm": 0.01774010132743423,
+    "video_norm": 0.07247676054352728
+  },
+  "lora_unet_blocks_31_mlp_fc1": {
+    "audio_norm": 0.04462623902029512,
+    "video_norm": 0.10955462762702901
+  },
+  "lora_unet_blocks_31_mlp_fc2": {
+    "audio_norm": 0.01784729648028849,
+    "video_norm": 0.052661396410631084
+  },
+  "lora_unet_blocks_32_attn_qkv_proj": {
+    "audio_norm": 0.03853061678762954,
+    "video_norm": 0.06869063262198206
+  },
+  "lora_unet_blocks_32_attn_out_proj": {
+    "audio_norm": 0.01930148278752611,
+    "video_norm": 0.054894487853289514
+  },
+  "lora_unet_blocks_32_mlp_fc1": {
+    "audio_norm": 0.047092824406691526,
+    "video_norm": 0.08974240470674229
+  },
+  "lora_unet_blocks_32_mlp_fc2": {
+    "audio_norm": 0.02060275227282755,
+    "video_norm": 0.05922859305236031
+  },
+  "lora_unet_blocks_33_attn_qkv_proj": {
+    "audio_norm": 0.035624380721096874,
+    "video_norm": 0.07133650061800838
+  },
+  "lora_unet_blocks_33_attn_out_proj": {
+    "audio_norm": 0.021105215586801323,
+    "video_norm": 0.05539045494187434
+  },
+  "lora_unet_blocks_33_mlp_fc1": {
+    "audio_norm": 0.04593509529320453,
+    "video_norm": 0.1059378715960387
+  },
+  "lora_unet_blocks_33_mlp_fc2": {
+    "audio_norm": 0.021297723449416356,
+    "video_norm": 0.05914317250186065
+  },
+  "lora_unet_blocks_34_attn_qkv_proj": {
+    "audio_norm": 0.03147866646039733,
+    "video_norm": 0.06908217358085185
+  },
+  "lora_unet_blocks_34_attn_out_proj": {
+    "audio_norm": 0.017495432802564766,
+    "video_norm": 0.0467457876466744
+  },
+  "lora_unet_blocks_34_mlp_fc1": {
+    "audio_norm": 0.04674131676867856,
+    "video_norm": 0.09397967842093825
+  },
+  "lora_unet_blocks_34_mlp_fc2": {
+    "audio_norm": 0.01758897693972276,
+    "video_norm": 0.04549459583632279
+  },
+  "lora_unet_blocks_35_attn_qkv_proj": {
+    "audio_norm": 0.03836013021837862,
+    "video_norm": 0.06735127183188037
+  },
+  "lora_unet_blocks_35_attn_out_proj": {
+    "audio_norm": 0.01657976296231776,
+    "video_norm": 0.03894074142569459
+  },
+  "lora_unet_blocks_35_mlp_fc1": {
+    "audio_norm": 0.05674330581604254,
+    "video_norm": 0.07923769423832848
+  },
+  "lora_unet_blocks_35_mlp_fc2": {
+    "audio_norm": 0.018451565464989553,
+    "video_norm": 0.05322286231007642
+  },
+  "lora_unet_blocks_36_attn_qkv_proj": {
+    "audio_norm": 0.03511204878553668,
+    "video_norm": 0.055831429819877154
+  },
+  "lora_unet_blocks_36_attn_out_proj": {
+    "audio_norm": 0.01426592641684585,
+    "video_norm": 0.041664863915272306
+  },
+  "lora_unet_blocks_36_mlp_fc1": {
+    "audio_norm": 0.06700407106764521,
+    "video_norm": 0.059665300374458836
+  },
+  "lora_unet_blocks_36_mlp_fc2": {
+    "audio_norm": 0.012116006543683723,
+    "video_norm": 0.03346085570725095
+  },
+  "lora_unet_blocks_37_attn_qkv_proj": {
+    "audio_norm": 0.03592693959139296,
+    "video_norm": 0.0684941741506677
+  },
+  "lora_unet_blocks_37_attn_out_proj": {
+    "audio_norm": 0.011504602241064163,
+    "video_norm": 0.045336776841897464
+  },
+  "lora_unet_blocks_37_mlp_fc1": {
+    "audio_norm": 0.05362001870736479,
+    "video_norm": 0.05473630950706599
+  },
+  "lora_unet_blocks_37_mlp_fc2": {
+    "audio_norm": 0.010290465603339677,
+    "video_norm": 0.03520486579016493
+  },
+  "lora_unet_blocks_38_attn_qkv_proj": {
+    "audio_norm": 0.03382607852334729,
+    "video_norm": 0.05461968277953003
+  },
+  "lora_unet_blocks_38_attn_out_proj": {
+    "audio_norm": 0.013440053881644655,
+    "video_norm": 0.03736619467844589
+  },
+  "lora_unet_blocks_38_mlp_fc1": {
+    "audio_norm": 0.059855137039691995,
+    "video_norm": 0.053089460719274305
+  },
+  "lora_unet_blocks_38_mlp_fc2": {
+    "audio_norm": 0.016374642008735552,
+    "video_norm": 0.0371018571176358
+  },
+  "lora_unet_blocks_39_attn_qkv_proj": {
+    "audio_norm": 0.02750122015005965,
+    "video_norm": 0.0457262886171547
+  },
+  "lora_unet_blocks_39_attn_out_proj": {
+    "audio_norm": 0.014440805845764291,
+    "video_norm": 0.03304694261128268
+  },
+  "lora_unet_blocks_39_mlp_fc1": {
+    "audio_norm": 0.066332282649888,
+    "video_norm": 0.05017684740052558
+  },
+  "lora_unet_blocks_39_mlp_fc2": {
+    "audio_norm": 0.0182053145896193,
+    "video_norm": 0.03631024983342274
+  },
+  "lora_unet_blocks_40_attn_qkv_proj": {
+    "audio_norm": 0.028680385905705107,
+    "video_norm": 0.051118921349095604
+  },
+  "lora_unet_blocks_40_attn_out_proj": {
+    "audio_norm": 0.011331821967339464,
+    "video_norm": 0.035240682324172046
+  },
+  "lora_unet_blocks_40_mlp_fc1": {
+    "audio_norm": 0.058820616835895616,
+    "video_norm": 0.04806503153213205
+  },
+  "lora_unet_blocks_40_mlp_fc2": {
+    "audio_norm": 0.014086785800951592,
+    "video_norm": 0.035581355784581006
+  },
+  "lora_unet_blocks_41_attn_qkv_proj": {
+    "audio_norm": 0.030374021078252305,
+    "video_norm": 0.05546064656697219
+  },
+  "lora_unet_blocks_41_attn_out_proj": {
+    "audio_norm": 0.015246861970463224,
+    "video_norm": 0.033321822478816245
+  },
+  "lora_unet_blocks_41_mlp_fc1": {
+    "audio_norm": 0.04859406756673404,
+    "video_norm": 0.0450134861512553
+  },
+  "lora_unet_blocks_41_mlp_fc2": {
+    "audio_norm": 0.010984293915618908,
+    "video_norm": 0.0377470295777437
+  },
+  "lora_unet_blocks_42_attn_qkv_proj": {
+    "audio_norm": 0.019681645749077378,
+    "video_norm": 0.044038011024466785
+  },
+  "lora_unet_blocks_42_attn_out_proj": {
+    "audio_norm": 0.013637398517284254,
+    "video_norm": 0.025663974084066152
+  },
+  "lora_unet_blocks_42_mlp_fc1": {
+    "audio_norm": 0.04232167207939009,
+    "video_norm": 0.0412776257899019
+  },
+  "lora_unet_blocks_42_mlp_fc2": {
+    "audio_norm": 0.009169512892587878,
+    "video_norm": 0.031019309556507887
+  },
+  "lora_unet_blocks_43_attn_qkv_proj": {
+    "audio_norm": 0.023169135922973674,
+    "video_norm": 0.05301717655317862
+  },
+  "lora_unet_blocks_43_attn_out_proj": {
+    "audio_norm": 0.010048755559950587,
+    "video_norm": 0.022863336639730825
+  },
+  "lora_unet_blocks_43_mlp_fc1": {
+    "audio_norm": 0.047516298261231105,
+    "video_norm": 0.06036467945012494
+  },
+  "lora_unet_blocks_43_mlp_fc2": {
+    "audio_norm": 0.009560220717913624,
+    "video_norm": 0.03766501790111455
+  },
+  "lora_unet_blocks_44_attn_qkv_proj": {
+    "audio_norm": 0.03214842515443455,
+    "video_norm": 0.04938569741414551
+  },
+  "lora_unet_blocks_44_attn_out_proj": {
+    "audio_norm": 0.009512744278816402,
+    "video_norm": 0.027010748194333144
+  },
+  "lora_unet_blocks_44_mlp_fc1": {
+    "audio_norm": 0.04445700686241628,
+    "video_norm": 0.06649314464535466
+  },
+  "lora_unet_blocks_44_mlp_fc2": {
+    "audio_norm": 0.007564010586124382,
+    "video_norm": 0.04052145609391409
+  },
+  "lora_unet_blocks_45_attn_qkv_proj": {
+    "audio_norm": 0.04115478749977056,
+    "video_norm": 0.041505808436168766
+  },
+  "lora_unet_blocks_45_attn_out_proj": {
+    "audio_norm": 0.010177341774163478,
+    "video_norm": 0.02833185376426009
+  },
+  "lora_unet_blocks_45_mlp_fc1": {
+    "audio_norm": 0.03259937246097157,
+    "video_norm": 0.05448758590043271
+  },
+  "lora_unet_blocks_45_mlp_fc2": {
+    "audio_norm": 0.00814252452530192,
+    "video_norm": 0.04646356609705397
+  },
+  "lora_unet_blocks_46_attn_qkv_proj": {
+    "audio_norm": 0.034093394465483186,
+    "video_norm": 0.04278008661564977
+  },
+  "lora_unet_blocks_46_attn_out_proj": {
+    "audio_norm": 0.008407477995734061,
+    "video_norm": 0.025228419854686226
+  },
+  "lora_unet_blocks_46_mlp_fc1": {
+    "audio_norm": 0.01444327266183776,
+    "video_norm": 0.05001548569402057
+  },
+  "lora_unet_blocks_46_mlp_fc2": {
+    "audio_norm": 0.007241798028038715,
+    "video_norm": 0.0350806581483047
+  },
+  "lora_unet_blocks_47_attn_qkv_proj": {
+    "audio_norm": 0.022351449447049695,
+    "video_norm": 0.0639304948225205
+  },
+  "lora_unet_blocks_47_attn_out_proj": {
+    "audio_norm": 0.007388886146729105,
+    "video_norm": 0.030161249088492766
+  },
+  "lora_unet_blocks_47_mlp_fc1": {
+    "audio_norm": 0.011416676018016492,
+    "video_norm": 0.055482847479731846
+  },
+  "lora_unet_blocks_47_mlp_fc2": {
+    "audio_norm": 0.005738228199335576,
+    "video_norm": 0.0346700827254005
+  },
+  "lora_unet_blocks_48_attn_qkv_proj": {
+    "audio_norm": 0.019870596313936204,
+    "video_norm": 0.06654416622612853
+  },
+  "lora_unet_blocks_48_attn_out_proj": {
+    "audio_norm": 0.007526480842901649,
+    "video_norm": 0.02833284156923881
+  },
+  "lora_unet_blocks_48_mlp_fc1": {
+    "audio_norm": 0.008244995464888603,
+    "video_norm": 0.04716296319861502
+  },
+  "lora_unet_blocks_48_mlp_fc2": {
+    "audio_norm": 0.004202195098020325,
+    "video_norm": 0.045199554396345924
+  },
+  "lora_unet_blocks_49_attn_qkv_proj": {
+    "audio_norm": 0.03590039112217797,
+    "video_norm": 0.07034668036576593
+  },
+  "lora_unet_blocks_49_attn_out_proj": {
+    "audio_norm": 0.004919262438326397,
+    "video_norm": 0.01578672443041045
+  },
+  "lora_unet_blocks_49_mlp_fc1": {
+    "audio_norm": 0.007392263415226433,
+    "video_norm": 0.026883178416368208
+  },
+  "lora_unet_blocks_49_mlp_fc2": {
+    "audio_norm": 0.008726155542801874,
+    "video_norm": 0.02373457066149442
+  }
+}

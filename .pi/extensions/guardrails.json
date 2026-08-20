@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/@aliou/pi-guardrails@0.15.0/schema.json",
+  "pathAccess": {
+    "allowedPaths": [
+      {
+        "kind": "directory",
+        "path": "/media/queen/Backup/CustomModels/Lora/krea2"
+      },
+      {
+        "kind": "directory",
+        "path": "/tmp"
+      }
+    ]
+  },
+  "version": "0.13.0-20260619"
+}

@@ -1,0 +1,93 @@
+/home/alan/Workspace/Miniconda3/envs/comfyui_t211/lib/python3.13/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[attribution] reused saved attribution from /home/alan/Workspace/lora-scripts/attr_MysticXXX_MMH3.json
+
+[attribution] audio-dominant modules (top 15):
+  lora_unet_blocks_39_mlp_fc1                             audio=     0.066 video=     0.050 dominance= 0.57
+  lora_unet_blocks_40_mlp_fc1                             audio=     0.059 video=     0.048 dominance= 0.55
+  lora_unet_blocks_38_mlp_fc1                             audio=     0.060 video=     0.053 dominance= 0.53
+  lora_unet_blocks_36_mlp_fc1                             audio=     0.067 video=     0.060 dominance= 0.53
+  lora_unet_blocks_41_mlp_fc1                             audio=     0.049 video=     0.045 dominance= 0.52
+  lora_unet_blocks_42_mlp_fc1                             audio=     0.042 video=     0.041 dominance= 0.51
+  lora_unet_blocks_45_attn_qkv_proj                       audio=     0.041 video=     0.042 dominance= 0.50
+  lora_unet_blocks_37_mlp_fc1                             audio=     0.054 video=     0.055 dominance= 0.49
+  lora_unet_blocks_46_attn_qkv_proj                       audio=     0.034 video=     0.043 dominance= 0.44
+  lora_unet_blocks_43_mlp_fc1                             audio=     0.048 video=     0.060 dominance= 0.44
+  lora_unet_blocks_35_mlp_fc1                             audio=     0.057 video=     0.079 dominance= 0.42
+  lora_unet_blocks_44_mlp_fc1                             audio=     0.044 video=     0.066 dominance= 0.40
+  lora_unet_blocks_44_attn_qkv_proj                       audio=     0.032 video=     0.049 dominance= 0.39
+  lora_unet_blocks_36_attn_qkv_proj                       audio=     0.035 video=     0.056 dominance= 0.39
+  lora_unet_blocks_38_attn_qkv_proj                       audio=     0.034 video=     0.055 dominance= 0.38
+[attribution] video-dominant modules (top 15):
+  lora_unet_blocks_19_mlp_fc1                             audio=     0.004 video=     0.053 dominance= 0.07
+  lora_unet_blocks_19_attn_qkv_proj                       audio=     0.016 video=     0.217 dominance= 0.07
+  lora_unet_blocks_21_mlp_fc2                             audio=     0.002 video=     0.021 dominance= 0.07
+  lora_unet_blocks_20_mlp_fc1                             audio=     0.006 video=     0.084 dominance= 0.07
+  lora_unet_blocks_19_mlp_fc2                             audio=     0.001 video=     0.018 dominance= 0.07
+  lora_unet_blocks_18_mlp_fc2                             audio=     0.002 video=     0.025 dominance= 0.07
+  lora_unet_blocks_23_mlp_fc1                             audio=     0.011 video=     0.140 dominance= 0.07
+  lora_unet_blocks_20_mlp_fc2                             audio=     0.002 video=     0.025 dominance= 0.07
+  lora_unet_blocks_21_mlp_fc1                             audio=     0.007 video=     0.085 dominance= 0.07
+  lora_unet_blocks_22_mlp_fc1                             audio=     0.009 video=     0.104 dominance= 0.08
+  lora_unet_blocks_23_mlp_fc2                             audio=     0.003 video=     0.038 dominance= 0.08
+  lora_unet_blocks_18_mlp_fc1                             audio=     0.012 video=     0.144 dominance= 0.08
+  lora_unet_blocks_22_mlp_fc2                             audio=     0.002 video=     0.026 dominance= 0.08
+  lora_unet_blocks_22_attn_qkv_proj                       audio=     0.019 video=     0.220 dominance= 0.08
+  lora_unet_blocks_21_attn_qkv_proj                       audio=     0.010 video=     0.117 dominance= 0.08
+
+[attribution] audio gradient energy by block:
+  block  35:   4.0%  (0.1)
+  block  36:   3.9%  (0.1)
+  block  39:   3.9%  (0.1)
+  block  32:   3.8%  (0.1)
+  block  33:   3.8%  (0.1)
+  block  38:   3.8%  (0.1)
+  block  29:   3.5%  (0.1)
+  block  34:   3.5%  (0.1)
+  block  40:   3.5%  (0.1)
+  block  30:   3.4%  (0.1)
+  block  37:   3.4%  (0.1)
+  block  31:   3.4%  (0.1)
+  block  41:   3.2%  (0.1)
+  block  44:   2.9%  (0.1)
+  block  45:   2.8%  (0.1)
+  block  43:   2.8%  (0.1)
+  block  42:   2.6%  (0.1)
+  block   0:   2.6%  (0.1)
+  block  28:   2.5%  (0.1)
+  block  27:   2.0%  (0.1)
+  block  46:   2.0%  (0.1)
+  block  49:   1.7%  (0.1)
+  block  10:   1.4%  (0.0)
+  block  47:   1.4%  (0.0)
+  block  25:   1.4%  (0.0)
+  block  26:   1.4%  (0.0)
+  block   2:   1.3%  (0.0)
+  block  11:   1.3%  (0.0)
+  block   1:   1.3%  (0.0)
+  block  15:   1.3%  (0.0)
+  block  14:   1.3%  (0.0)
+  block  48:   1.2%  (0.0)
+  block   4:   1.2%  (0.0)
+  block  24:   1.2%  (0.0)
+  block  18:   1.2%  (0.0)
+  block   6:   1.1%  (0.0)
+  block   3:   1.1%  (0.0)
+  block  16:   1.1%  (0.0)
+  block  23:   1.0%  (0.0)
+  block  22:   1.0%  (0.0)
+  block   5:   1.0%  (0.0)
+  block  12:   1.0%  (0.0)
+  block  13:   1.0%  (0.0)
+  block  17:   1.0%  (0.0)
+  block   9:   0.9%  (0.0)
+  block   8:   0.9%  (0.0)
+  block  19:   0.9%  (0.0)
+  block  20:   0.8%  (0.0)
+  block  21:   0.7%  (0.0)
+  block   7:   0.5%  (0.0)
+
+[scale] audio_scale=0.0: per-module scale range min=0.431 max=0.932 mean=0.811
+[lora] scaling /media/queen/Backup/CustomModels/Lora/h3/MysticXXX_MMH3-step00007900.safetensors with audio_scale=0.0 -> /media/queen/Backup/CustomModels/Lora/h3/MysticXXX_MMH3-step00007900_noaudio.safetensors
+[scale] scaled 200 lora_up tensors
+[done] wrote /media/queen/Backup/CustomModels/Lora/h3/MysticXXX_MMH3-step00007900_noaudio.safetensors
